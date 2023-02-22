@@ -1,0 +1,49 @@
+name: 'template-deploy'
+
+on:
+  workflow_call:
+    inputs:
+      var_name:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+      working_directory:
+        required: true
+        type: string
+
+jobs:
+  terraform-test:
+    name: 'Terraform'
+    environment: ${{ inputs.environment }}
+    env:
+      ARM_CLIENT_ID: ${{ secrets.SECRETS }}
+      VAR_NAME: ${{ inputs.var_name }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.working_directory}}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.2.7
+
+    - name: 'Terraform Init'
+      run: |
+        terraform init \
+        -backend-config="resource_group_name=" \
+        -backend-config="storage_account_name=" \
+        -backend-config="container_name=" \
+        -backend-config="key="
+
+    - name: 'Terraform Apply'
+      run: |
+        terraform apply -auto-approve \
+        -var="var_name=" \

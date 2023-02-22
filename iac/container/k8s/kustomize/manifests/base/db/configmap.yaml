@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+  namespace: default
+data:
+  DB_NAME: postgres
+  DB_USER_NAME: dev_root
+  DB_USER_PASSWORD: dev_root

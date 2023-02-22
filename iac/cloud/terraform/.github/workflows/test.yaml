@@ -1,0 +1,19 @@
+name: 'dev-test'
+
+on:
+  push:
+    branches:
+      - feature/*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform-test:
+    uses: ./.github/workflows/template-test.yaml
+    with:
+      backend_key: ''
+      skip_check: ''
+      environment: ''
+      working_directory: ''
+    secrets: inherit

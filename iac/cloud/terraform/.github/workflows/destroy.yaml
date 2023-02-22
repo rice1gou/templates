@@ -1,0 +1,13 @@
+name: 'dev-destroy'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform-test:
+    uses: ./.github/workflows/template-destroy.yaml
+    with:
+      var_name: ''
+      environment: ''
+      working_directory: ''
+    secrets: inherit

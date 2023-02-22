@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  app:
+    image: image
+    container_name: container_name
+    depends_on:
+      - service_name
+    ports:
+      - port
+    environment:
+      - envvar=value
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "5"
+    restart: always
+
+  db:
+    image: image
+    container_name: container_name
+    hostname: ${DB_HOST_NAME}
+    depends_on:
+      - service_name
+    ports:
+      - port
+    environment:
+      - envvar=value
+    volumes:
+    - ${DB_VOLUME_PATH}:container_file_path
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "5"
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - service_name
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
